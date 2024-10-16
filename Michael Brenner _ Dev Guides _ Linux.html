@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)https://www.michaelbrenner.dev/content/articles.html?article=linux -->
+<html lang="en-us" class="swup-enabled"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Brenner | Dev Guides | Linux</title>
+    <meta name="description" content="This is a personal portfolio website where 
+    I host articles and showcase projects I am working on.">
+    <meta name="keywords" content="Portfolio, Michael Brenner, OS Hardening, Linux, Windows, Networking, Checklists, Guides">
+
+    <script defer="" src="./Michael Brenner _ Dev Guides _ Linux_files/swup.min.js.download"></script>
+    <script defer="" type="module" src="./Michael Brenner _ Dev Guides _ Linux_files/script.js.download"></script>
+    <link rel="stylesheet" href="./Michael Brenner _ Dev Guides _ Linux_files/default.css">
+    <link href="https://www.michaelbrenner.dev/" rel="canonical">
+<link rel="icon" href="https://www.michaelbrenner.dev/favicon.svg"></head>
+
+<body style="background-color: #161616">
+
+    <main id="swup" class="transition-fade" data-swup="0">
+        <div class="navbar">
+            <a id="homeButton" href="https://www.michaelbrenner.dev/index.html" class="nav">Home</a><a class="nav" href="https://www.michaelbrenner.dev/content/guides_and_articles.html">Back</a>
+        </div>
+        <div id="article-title" style="text-align: left;color: #aeaeae;"><div id="header">
+<h1>Linux Hardening</h1>
+</div></div>
+        <div id="last-revision"><div id="footer">
+<div id="footer-text">
+Last updated 2022-11-19 00:34:52
+</div>
+</div></div>
+        <div id="article-content" class="article"><div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Checklist is a "fork" of Aiden Gravitt’s "GOD teir checklist LINUX or also know as PAIN"</p>
+</div>
+<div class="paragraph">
+<p>Editors: Michael Brenner and Hunter Ter Horst</p>
+</div>
+<div class="paragraph">
+<p>Read the Read Me and complete Forensics Questions (Competition Only) first before
+completing this checklist as by completing some of the steps found in this
+guide/checklist might make it impossible to complete the Forensics Questions or
+you might end up disabling a required service.</p>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_tools">Tools</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_details">Details</a>
+<ul class="sectlevel2">
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_update_system">Update system</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_install_and_maintain_malware_protection_software">Install and Maintain Malware Protection Software</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_account_management">Account Management</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_firewall_network_settings">Firewall &amp; Network Settings</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_system_file_configuration">System File Configuration</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_services_configurations">Services Configurations</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_settingusing_audit_policies_and_monitoring_software">Setting/Using Audit Policies and Monitoring Software</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_software_configurations">Software Configurations</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_how_to_check_for_installed_hacking_tools_on_linux">How to check for installed hacking tools on linux</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_unauthorized_and_suspicious_files">Unauthorized and Suspicious Files</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_bios_and_boot_security">BIOS and Boot Security</a></li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_additional_information_and_faq">Additional Information and FAQ</a></li>
+</ul>
+</li>
+<li><a href="https://www.michaelbrenner.dev/content/articles.html?article=linux#_extra_resources">Extra Resources</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tools">Tools</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Lynis - <a href="https://cisofy.com/downloads/lynis/" class="bare" target="_blank" rel="noopener">https://cisofy.com/downloads/lynis/</a></p>
+</li>
+<li>
+<p>Linpeas - <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS" class="bare" target="_blank" rel="noopener">https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS</a></p>
+</li>
+<li>
+<p>ClamAV - <a href="https://www.clamav.net/downloads" class="bare" target="_blank" rel="noopener">https://www.ClamAV.net/downloads</a></p>
+</li>
+<li>
+<p>Linux Malware Detect - <a href="https://www.rfxn.com/projects/linux-malware-detect/" class="bare" target="_blank" rel="noopener">https://www.rfxn.com/projects/linux-malware-detect/</a></p>
+</li>
+<li>
+<p>RKHunter - <a href="http://rkhunter.sourceforge.net/" class="bare" target="_blank" rel="noopener">http://rkhunter.sourceforge.net/</a></p>
+</li>
+<li>
+<p>Uncomplicated Firewall (UFW) - <a href="https://wiki.ubuntu.com/UncomplicatedFirewall" class="bare" target="_blank" rel="noopener">https://wiki.ubuntu.com/UncomplicatedFirewall</a></p>
+</li>
+<li>
+<p>Fail2ban - <a href="https://www.fail2ban.org/wiki/index.php/Main_Page" class="bare" target="_blank" rel="noopener">https://www.fail2ban.org/wiki/index.php/Main_Page</a></p>
+</li>
+<li>
+<p>TCPWrappers - <a href="https://www.linuxsecrets.com/3311-linux-wrapper-explained" class="bare" target="_blank" rel="noopener">https://www.linuxsecrets.com/3311-linux-wrapper-explained</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_details">Details</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While going through this checklist, please make sure to write down any vulnerabilities
+you find as it will help you out later after the competition or for if you
+encounter the problem again, you will now be able to know how you fixed it before.</p>
+</div>
+<div class="sect2">
+<h3 id="_update_system">Update system</h3>
+<div class="paragraph">
+<p>Here are the following things you have to do to update the system:</p>
+</div>
+<div class="paragraph">
+<p><strong><em>IMPORTANT Pre-requisite</em></strong>: On Ubuntu systems, make sure that you have the following
+settings selected in the Software &amp; Updates app:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Under the <code>Ubuntu Software</code> tab, make sure the following options are selected:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Canonical-supported free and open-source software (main)</code></p>
+</li>
+<li>
+<p><code>Community-maintained free and open-source software (universe)</code></p>
+</li>
+<li>
+<p><code>Proprietary drivers for devices (restricted)</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Under the <code>Other Software</code> tab make sure the following options are selected:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Canonical Partners</code></p>
+</li>
+<li>
+<p><code>Independent</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Under the <code>Updates</code> tab:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Important security updates</code> should be selected</p>
+</li>
+<li>
+<p><code>Recommended updates</code> should be selected</p>
+</li>
+<li>
+<p><code>Automatically check for updates</code> is set to <code>daily</code></p>
+</li>
+<li>
+<p><code>When there are other updates</code> is set to <code>Display immediately</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By ensuring that these settings are set, you can now update the system without
+missing any packages that otherwise would have been skipped. (If any of these
+settings were not set, you run the risk of not having all the packages and apps
+on the system updated to their newest version.)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update packages</p>
+<div class="paragraph">
+<p>Run the following commands to update the system:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sudo apt-get update</code> (this will update the systems package repositories)</p>
+</li>
+<li>
+<p><code>sudo apt-get upgrade</code> (this will upgrade the packages)</p>
+</li>
+<li>
+<p><code>sudo apt-get dist-upgrade</code> (this will update the kernel) Note: This works the
+same as <code>sudo apt full-upgrade</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_install_and_maintain_malware_protection_software">Install and Maintain Malware Protection Software</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Install &amp; Run ClamAV (Antivirus)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install ClamAV by first making sure your machine is update with
+<code>sudo apt-get update &amp;&amp; apt-get upgrade</code> then installing with:
+<code>sudo apt-get install clamav clamav-daemon clamtk</code><br>
+This will install the ClamAV program along with its services and GUI versions.</p>
+</li>
+<li>
+<p>Once installed, you can manually update the antivirus database by running:
+<code>sudo freshclam</code>. This might not work right away as the <code>clamav-daemon</code> creates
+a service that automatically updates clamav, making it so that you can’t
+manually update while the service is running.</p>
+</li>
+<li>
+<p>To run a scan that will: locate <code>--infected</code> files and alert you with a
+<code>--bell</code> and <code>--remove</code> them by performing a <code>--recursive</code> scan on the <code>/</code>
+(root directory), you will need to run:
+<code>sudo clamscan --infected --remove --bell --recursive /</code></p>
+</li>
+<li>
+<p>This will take a long time and will most likely not show anything for a
+long time. Trust me, more likely than not it is running.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install &amp; Run Linux Malware Detect (Anti-Malware)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To install download from the GitHub repository here:
+<a href="https://github.com/rfxn/linux-malware-detect/releases/" class="bare" target="_blank" rel="noopener">https://github.com/rfxn/linux-malware-detect/releases/</a></p>
+</li>
+<li>
+<p>Unzip and enter the folder. Run the installer using the command:
+<code>sudo ./install.sh</code></p>
+</li>
+<li>
+<p>You can tell if it is installed correctly if you get a help page after
+running the command: <code>sudo maldet</code></p>
+</li>
+<li>
+<p>Next thing you are going to want to do is using your preferred text editor,
+change the followin settings file <code>/usr/local/maldetect/conf.maldet</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>scan_max_depth = "45"</p>
+</li>
+<li>
+<p>scan_clamscan = "1"</p>
+</li>
+<li>
+<p>quarantine_hits = "1"</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To run, use the following command: <code>sudo maldet -a / -l -e</code><br>
+Breakdown of parameters:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>-a /</code> — scan root directory</p>
+</li>
+<li>
+<p><code>-l</code> — log the output</p>
+</li>
+<li>
+<p><code>-e</code> — show a report when finished</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>After the scan has completed, make sure to look at the report given by the
+program as it will tell you what files have been removed (that it thinks were
+malware) and where they were found.<br>
+Please note that you should still keep your eye out for suspicious files and
+directories as it is still possible for the program to miss something. You can
+never be too careful.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install &amp; Run RKHunter (Anti-Rootkit)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To install use the following command: <code>sudo apt-get install rkhunter</code></p>
+</li>
+<li>
+<p>Update the rootkit database: <code>sudo rkhunter --update</code></p>
+</li>
+<li>
+<p>Check for rootkits on the entire system with: <code>sudo rkhunter --check</code></p>
+</li>
+<li>
+<p>If any rootkits are reported, log them and remove them immediately.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_account_management">Account Management</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Please remeber to do the following things while configuring user accounts:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Write down names of accounts you delete.</p>
+</li>
+<li>
+<p>Write down the passwords you give your users.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Users and Groups</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Disable login for non-user accounts such as bin, sys, uucp, mysql, etc.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To disable an account (meaning you can’t login to it) all you have to do
+is the following command: <code>passwd -l &lt;username&gt;</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Disable Root login</p>
+<div class="paragraph">
+<p>All you have to do is go into the <code>/etc/passwd</code> file and change the root user
+login shell (usually the very last entry on the line that will say something
+like <code>/bin/sh</code>) from <code>/bin/sh</code> (or whatever there current shell is) to
+<code>/sbin/nologin</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Before: <code>root:x:0:0:root:/root:/bin/sh</code></p>
+</li>
+<li>
+<p>After: <code>root:x:0:0:root:/root:/sbin/nologin</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Root User Timeout</p>
+<div class="paragraph">
+<p>Configure the root user timeout by editing the file /etc/profiles. Be
+sure to edit OR create the line "[ $UID -eq 0 ] &amp;&amp; TMOUT=600" which
+sets the root users' timeout to 10 minutes.</p>
+</div>
+</li>
+<li>
+<p>Disable Guest account</p>
+<div class="paragraph">
+<p>Like Windows, the Guest account is turned on by default. You should disable
+it so people who aren’t authorized to have access to the system can’t access
+the data.</p>
+</div>
+<div class="paragraph">
+<p>To turn off the guest account in debian-based distros you need to edit the
+LightDMfile (This only applies if the image is using the lightdm display manager!):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the following file using your preffered text editor:
+<code>/etc/lightdm/lightdm.conf</code></p>
+</li>
+<li>
+<p>Add the line <code>allow-guest=false</code> at the end of the file. Save the file
+and exit.</p>
+</li>
+<li>
+<p>Restart the system. The guest account should now be disabled.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ensure all admins are authorized</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You can ensure this by going to the settings app and user accounts and
+comparing each user and see if they are supposed to be Admin or not. If they
+are Admin and not supposed to be, remove the Admin permission from the user.</p>
+</li>
+<li>
+<p>You should also check the sudoers file in <code>/etc/sudoers</code>. Make sure that
+only users that are authorized to use the <code>sudo</code> command are added to this file.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ensure only authorized users are on the system</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To do this you will again be going through the list of users that can be
+found in the graphical settings window and removing users that are not
+authorized to be on the system by comparing the Readme or docuementation for
+authorized users.</p>
+<div class="paragraph">
+<p>After going through the graphical users settings make sure to alsow check the
+<code>/etc/passwd</code> file for unauthorized users as well as ensuring that no one has been
+giving the root users PID and GID which can be identified if a user in the <code>passwd</code>
+file looks like <code>&lt;user&gt;:0:0:&lt;login shell&gt;</code>. If their username is followed by a
+<code>:0:0:</code> then the user has been assigned to the root user id and group id, essentially
+making themselves look like the root user to the system.</p>
+</div>
+</li>
+<li>
+<p>Make sure that there wasn’t anything left behind from the user on the system
+that references the account (groups, files, etc.)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ensure all users on the system have strong passwords</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>PAM Configuration</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pluggable Authentication Modules (PAM) are used for logon and applications.
+They simplify user authentication. There are four types of PAM files:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Account — control account conditions (e.g. not expired, etc)</p>
+</li>
+<li>
+<p>Authentication — verify user identities</p>
+</li>
+<li>
+<p>Password — control some password policies</p>
+</li>
+<li>
+<p>Session — define actions performed at the beginning and end of user sessions</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>First thing you will have to do is install pam_cracklib with the following
+command: <code>sudo apt-get install libpam-cracklib</code><br>
+This will give us some more control as to password protections and user timeouts.</p>
+</li>
+<li>
+<p>Edit <code>/etc/pam.d/common-password</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Enforce password history of 5:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add <code>remember=5</code> to the end of the line that has <code>pam_unix.so</code> on it.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enforce password length of 8:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add <code>minlen=8</code> to the end of the line that has <code>pam_unix.so</code> on it.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enforce password complexity with one of each type of character:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add <code>ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1</code> to the end of the line
+with <code>pam_cracklib.so</code> on it.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>ucredit = upper case</p>
+</li>
+<li>
+<p>lcredit = lower case</p>
+</li>
+<li>
+<p>dcredit = number</p>
+</li>
+<li>
+<p>ocredit = symbol</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Edit <code>etc/login.defs</code> and search and set the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Maximum Password Duration: <code>PASS_MAX_DAYS 90</code></p>
+</li>
+<li>
+<p>Minimum Password Duration: <code>PASS_MIN_DAYS 10</code></p>
+</li>
+<li>
+<p>Days before expiration to warn users to change their password: <code>PASS_WARN_AGE 7</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Edit <code>/etc/pam.d/common-auth</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>To set the account lockout policy, add the following line to the end of the
+file: <code>auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_firewall_network_settings">Firewall &amp; Network Settings</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Enable the Firewall</p>
+<div class="paragraph">
+<p>The most common Firewall you will find on a Linux based system will be the
+Uncomplicated Firewall (UFW). You will also sometimes find another firefwall
+by the name of "Firewall Configuration" which is just the graphical version of
+UFW (gufw).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>UFW Install &amp; Enable</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To install use the following command: <code>sudo apt-get install ufw</code></p>
+</li>
+<li>
+<p>To enable the firewall use the following command: <code>sudo ufw enable</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>How to add/remove Firewall Rules</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To see a verbose list of currently enabled rules all you have to do is run:
+<code>sudo ufw status verbose numbered</code></p>
+</li>
+<li>
+<p>To add a rule all you have to do is the following command:
+<code>sudo ufw allow &lt;port # or protocol (ssh, http/s, etc)&gt;</code></p>
+</li>
+<li>
+<p>Make sure to add the correct ports for services that are required in your
+Readme file or docuementation. Otherwise what is the point of a service if you
+can’t connect to it?</p>
+</li>
+<li>
+<p>To remove a rule all you have to do is the following command:
+<code>sudo ufw delete &lt;row number the rule is on&gt;</code><br>
+You can find the row number the rule is on with the <code>sudo ufw status numbered</code>
+command.</p>
+</li>
+<li>
+<p>Make sure to remove any open ports that should not be open, if there are
+open ports that shouldn’t be open/aren’t required for service to run, write
+down the port number and look up what service requires that port. More likely
+than not, you will end up killing two birds with one stone as it is highly likely
+that the open port is associated with a service that should not be installed on
+the system and should be removed immediately.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Fail2ban</p>
+<div class="paragraph">
+<p>You will want to install Fail2ban as this service will help protect the system
+against brute force attacks and unauthorized users attempting to break in.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install Fail2Ban: <code>sudo apt-get install fail2ban</code></p>
+</li>
+<li>
+<p>Enable Fail2Ban: <code>sudo systemctl start fail2ban &amp;&amp; systemctl enable fail2ban</code></p>
+</li>
+<li>
+<p>Edit the config file: <code>sudo nano /etc/fail2ban/jail.local</code></p>
+</li>
+<li>
+<p>In the configuration file, you can set the account lockout policy bu editing your configuration file to match this model:</p>
+<div class="paragraph">
+<p># "bantime" is the number of seconds that a host is banned.
+bantime  = 600</p>
+</div>
+<div class="paragraph">
+<p># A host is banned if it has generated "maxretry" during the last "findtime"
+# seconds.
+findtime = 600
+maxretry = 3</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Other network settings</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Enable Syn Cookie Protection: <code>sudo sysctl -n net.ipv4.tcp_syncookies</code></p>
+</li>
+<li>
+<p>Enabke Syn Packets Check: <code>iptables -A INPUT -p tcp --tcp ! --syn -m state --state NEW -j DROP</code></p>
+</li>
+<li>
+<p>Drop XMAS packets: <code>iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP</code></p>
+</li>
+<li>
+<p>Drop null packets: <code>iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP</code></p>
+</li>
+<li>
+<p>Drop incoming packets with fragments: <code>iptables -A INPUT -f -j DROP</code></p>
+</li>
+<li>
+<p>Disable IPv6 (Potentially harmful to remain enabled):
+<code>echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf</code></p>
+</li>
+<li>
+<p>Disable IP Forwarding: <code>echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward</code></p>
+</li>
+<li>
+<p>Prevent IP Spoofing: <code>echo "nospoof on" | tee -a /etc/host.conf</code></p>
+</li>
+<li>
+<p>Detect all world-writtable files. Some sensitive files should have their permissions changed,
+instead of being writable by every user on the system. The command
+<code>find /dir -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print</code>
+shows each and every world-writable file.
+Once displayed, review and change file permissions as necessary.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_system_file_configuration">System File Configuration</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuring sysctl file (<code>/etc/sysctl.conf</code>):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Disable IP Forwarding by setting the <code>net.ipv4.ip_forward</code> parameter to 0.</p>
+</li>
+<li>
+<p>Disable the Send Packet Redirects by setting the <code>net.ipv4.conf.all.send_redirects</code>
+and <code>net.ipv4.conf.default.send_redirects</code> parameters to 0.</p>
+</li>
+<li>
+<p>Disable ICMP Redirect Acceptance by setting the <code>net.ipv4.conf.all.accept_redirects</code>
+and <code>net.ipv4.conf.default.accept_redirects</code> parameters to 0.</p>
+</li>
+<li>
+<p>Enable Bad Error Message Protection by setting the
+<code>net.ipv4.icmp_ignore_bogus_error_responses</code> parameter to 1.</p>
+</li>
+<li>
+<p>Add or change the line <code>kernel.randomize_va_space = 2</code> to the file.</p>
+</li>
+<li>
+<p>Add the line <code>kernel.exec-shield = 1</code> to the file somewhere.</p>
+</li>
+<li>
+<p>Add a <code>0</code> to the end of the file!</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Disble USB, firewire, and thunderbolt devices but making the following changes
+to the corresponding files:</p>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Disabling USB will make it so that you no longer have access to any
+flash drives that you might be using. Disable with caution.
+<strong> Add or change lines to "install usb-storage /bin/true" in the /etc/modprobe.d/disable-usb-storage.conf file.
+</strong> Add or change lines to "blacklist firewire-core" in the /etc/modprobe.d/firewire.conf file.
+** Add or change lines to "blacklist thunderbolt" in the /etc/modprobe.d/thunderbolt.conf file.
+</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+<li>
+<p>GRUB</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Start by generating a hash for the password you want to use by typing <code>grub-mkpasswd-pbkdf2</code> in terminal and hitting enter.</p>
+</li>
+<li>
+<p>Type and retype the password you want to use.</p>
+</li>
+<li>
+<p>A hash should appear, starting with <code>grub.pbkdf2</code>, and will be insanely long.
+Copy the whole string so we can use it later.</p>
+</li>
+<li>
+<p>Navigate to a configuration file in the directory <code>/etc/grub.d</code>. The file will be titled <code>40_custom</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This file sets custom GRUB rules for your local machine.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Once in the file, head to the bottom of it and add the following lines:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>set superusers= "&lt;names&gt;"</code></p>
+</li>
+<li>
+<p><code>password_pbkdf2 &lt;superusers_name&gt;[long string from earlier]</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Open /boot/grub/menu.lst file and follow the below steps:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add or change the line: <code>echo -n &lt;password&gt; | md5sum</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>NOTE: <code>&lt;password&gt;</code> means the actual password to enter.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Close and reopen /boot/grub/menu.lst and add following line:</p>
+</li>
+<li>
+<p><code>password --md5 &lt;paste generated password&gt;</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>NOTE: <code>&lt;paste generated password&gt;</code> really means the hash you copied earlier!</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>save and exit</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Now that your done editing files, type <code>sudo update-grub</code>, which restarts the system.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_services_configurations">Services Configurations</h3>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If the Readme or Documentation does not state that one of the services is
+required, remove immediately.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Some common settings you should ensure are set on any installed server are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enable logging for EVERYTHING</p>
+</li>
+<li>
+<p>Disable login as root</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Some more specific settings that should be set for certain servers can be found below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SELinux</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You should note that you may have to install the packages first by typing <code>sudo apt-get install selinux</code>.</p>
+</li>
+<li>
+<p>Open the file <code>/etc/selinux/config</code> and search for a line that reads <code>SELINUX=</code>. Once that line is located, change the parameter so the line now reads <code>SELINUX=enforced</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>SSH</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Change the following settings in your <code>/etc/ssh/sshd_config</code> and <code>/etc/ssh/ssh_config</code> files</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Change the default ssh port from 22 (Ex: 4815)</p>
+</li>
+<li>
+<p>X11 Forwarding no</p>
+</li>
+<li>
+<p>IgnoreRhosts yes</p>
+</li>
+<li>
+<p>UseDNS yes</p>
+</li>
+<li>
+<p>PermitEmptyPasswords no</p>
+</li>
+<li>
+<p>MaxAuthTries 3</p>
+</li>
+<li>
+<p>PermitRootLogin no</p>
+</li>
+<li>
+<p>Protocol 2</p>
+</li>
+<li>
+<p>AllowUsers [username]</p>
+</li>
+<li>
+<p>HostbasedAuthentication no</p>
+</li>
+<li>
+<p>Ciphers aes128-ctr,aes192-ctr,aes256-ctr</p>
+</li>
+<li>
+<p>UsePAM yes</p>
+</li>
+<li>
+<p>ClientAliveInterval 900</p>
+</li>
+<li>
+<p>ClientAliveCountMax 0</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Web</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Nginx</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Nginx.conf file configurations (http block)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>server_tokens off;</code></p>
+</li>
+<li>
+<p><code>client_body_buffer_size 1k;</code></p>
+</li>
+<li>
+<p><code>client_header_buffer_size 1k;</code></p>
+</li>
+<li>
+<p><code>client_max_body_size 1k;</code></p>
+</li>
+<li>
+<p><code>large_client_header_buffers 1k;</code></p>
+</li>
+<li>
+<p><code>error_log logs/error.log crit;</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Disable unwanted HTTP methods</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>location / { limit_except GET HEAD POST { deny all; } }</code></p>
+</li>
+<li>
+<p>In the server block: <code>if ($request_method !~ ^(GET|HEAD|POST)$ ) { return 444; }</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>X-Frame-Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In the server block: <code>add_header x-Frame-Options "SAMEORIGIN";</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Configure SSL and Cipher Suites (the following settings are to be made in
+the server block of nginx.conf)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ssl_protocols TLSv1.2 TLSv1.3;</code></p>
+</li>
+<li>
+<p><code>ssl_prefer_server_ciphers on;</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Apache2</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open your Apache config file located at /etc/apache2/conf-available/security.conf
+and modify the defaults to reflect the following lines:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ServerTokens Prod</code></p>
+</li>
+<li>
+<p><code>ServerSignature Off</code></p>
+</li>
+<li>
+<p><code>Header always unset X-Powered-By</code></p>
+</li>
+<li>
+<p><code>TraceEnable Off</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If you need your web server to have SSL, use something like <code>certbot</code> from
+Let’s Encrypt to get a free certificate for your website.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>SQL Databases</p>
+<div class="ulist">
+<ul>
+<li>
+<p>PostgreSQL</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ensure that no unauthorized users have been mapped to an authorized user in
+the database</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You can easily find this out by checking out the following files:
+<code>/etc/postgresql/x.x/main/pg_ctl.conf</code> and <code>/etc/postgresql/x.x/main/pg_hba.conf</code><br>
+These two files contain information on the identity mapping of users. To remove
+someone from them all you have to do is remove the line with the unauthorized user.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>MySQL</p>
+</li>
+<li>
+<p>MariaDB</p>
+</li>
+<li>
+<p>MongoDB</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Samba (SMB)</p>
+</li>
+<li>
+<p>OpenVPN</p>
+</li>
+<li>
+<p>Crontab</p>
+<div class="paragraph">
+<p>Crontab has the same purpose as the windows task scheduler. Crontab’s purpose is
+to schedule recurring tasks in a linux environment. This can be very handy if
+you have a service that you want started every time the computer/server turned
+on or have a script run or run a command. Because of this functionality, this makes
+crontab a very useful tool for System administrators, but it is conversely an
+EXTREMELY useful tool for malicious actors. If someone hacks into the server/computer
+they can hide a script somewhere on the machine and make not run into a certain
+person logs in (e.g. root) and run the script, causing a lot of damage. Becuase
+of this, we want to make sure that the crontab has nothing in there except
+authorized commands and scripts.</p>
+</div>
+<div class="paragraph">
+<p>Note: There are two versions of crontab: The first is the user crontab. Each user
+on the system has their own crontab. All commands in this crontab will run under
+that users permissions. The second is the root crontab. This one runs all of its
+commands under root permissions making it especially dangerous to misuse.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the crontab run the following command:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>User crontab: <code>crontab -e</code></p>
+</li>
+<li>
+<p>Root crontab: <code>sudo crontab -e</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_settingusing_audit_policies_and_monitoring_software">Setting/Using Audit Policies and Monitoring Software</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Audit system using Lynis Audit</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To run an audit of your system with lynis, run the following command:
+<code>sudo lynis audit system</code></p>
+</li>
+<li>
+<p>When the command finishes, go through the output and identify possible vulnerabilities
+that you can address or better security measures to be implemented.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install/Setup auditd</p>
+<div class="paragraph">
+<p>This program provides additional logging and auditing of the system.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install with: <code>sudo apt install auditd</code></p>
+</li>
+<li>
+<p>Enable with: <code>sudo auditctl -e 1</code></p>
+</li>
+<li>
+<p>View and modify policies by editing <code>/etc/audit/auditd.conf</code> as root user</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Installing and Automating Updates</p>
+<div class="ulist">
+<ul>
+<li>
+<p>[Todo]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>System Logs (syslog &amp; journalctl)</p>
+</li>
+<li>
+<p>Monitor your processes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>List running services with the following command: <code>sudo service --status-all</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Port Checks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>There are several ways to check open ports on a linux machine. Here are some
+of the</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_software_configurations">Software Configurations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Firefox</p>
+<div class="paragraph">
+<p>Firefox is the standard browser for the Cyberpatriots competition. Change the
+following settings:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>General</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Save Files to: Downloads</p>
+</li>
+<li>
+<p>Automatically Install Updates: Enabled<br>
+(This step was completed when you had set up Automatic Updates for the system)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Privacy &amp; Security</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set to <strong>Strict</strong></p>
+</li>
+<li>
+<p>Send websites a "Do Not Track" signal: Always</p>
+</li>
+<li>
+<p>Cookies and Site Data: Delete cookies and site data when Firefox is closed</p>
+</li>
+<li>
+<p>Logins and Passwords: All set to disabled (unchecked)</p>
+</li>
+<li>
+<p>History: Never Remember</p>
+</li>
+<li>
+<p>Permissions:<br>
+Go into each "settings" and checkmark the "Block new requests asking to access <em>__</em>".
+Also while in these settings make sure no websites are listed as having access
+to the setting.</p>
+</li>
+<li>
+<p>Block Pop-Up Windows: Enabled</p>
+</li>
+<li>
+<p>Warn you when websites try to install add-ons: Enabled</p>
+</li>
+<li>
+<p>Firefox Data Collection Use: Disable All (uncheck all boxes)</p>
+</li>
+<li>
+<p>Deceptive Content and Dangerous Software Protection: Enable All</p>
+</li>
+<li>
+<p>Certificates:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ask you every time: Enable</p>
+</li>
+<li>
+<p>Query OCSP Responder: Enable</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>HTTPS-Only Mode (Only available in most up-to-date version of Firefox):
+Enable HTTPS-Only mode in all windows</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ensure there are no plugins installed</p>
+</li>
+<li>
+<p>If you have extra time, you will want to take a look at Firefox’s
+<a href="http://about:config/" class="bare">http://about:config</a>. This site holds most if not all of Firefox’s different
+configurations, just in a much less user-friendly way.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_check_for_installed_hacking_tools_on_linux">How to check for installed hacking tools on linux</h3>
+<div class="paragraph">
+<p>The best way to go about listing installed packages on a linux machine that were
+not installed by default is to use <code>sudo apt list | grep '\[installed]'</code>. This command
+prints out all installed packages on the system and then filters to show only packages
+that were not installed by default or automatically.
+Within this list you will want to look through each package/application and look
+for ones that might have an unusual name (Ex: Goldeneye, Pompem, Packit, etc) and
+look it up in google if you don’t already know what it is. If the application you
+looked up mentions anything about injections, scanning the network, DoS or DDoS
+attacks, or anything similar you will want to remove it (unless for some really
+unlikely reason the Readme states otherwise). If you can’t seem to find anything
+that immediately stands out, try looking up a list of common hacking tools. Websites
+like <a href="https://www.kali.org/tools/" class="bare">https://www.kali.org/tools/</a> have a list or commonly used hacking tools.
+Heads up that some of these lists might have programs like SSH, FTP, or webservers.
+Please note that these applications can have more than one use case and doesn’t immediately
+mean that it is a hacking tool. Judge each case carefully and put yourself in the
+position of someone who is trying to protect your computers from outside forces.
+Think to yourself "Do we really need this application on a corporate computer?
+Is this really necessary to have a webserver that hosts <em>_</em>?" Try to think from
+a practical manor. This will help you decide whether or not the application that
+you have found should be removed or not.</p>
+</div>
+<div class="paragraph">
+<p>P.S. Another place to check what programs have been downloaded and installed is
+to check the dpkg log file found here: <code>/var/log/dpkg.log</code>. This file is the log
+for all package installations and downloads made using dpkg (this includes apt
+as apt uses dpkg for the actual installation of programs).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unauthorized_and_suspicious_files">Unauthorized and Suspicious Files</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>sudo find / -name '*.pl' -type f</p>
+</li>
+<li>
+<p>sudo find / -name '*.sh' -type f</p>
+</li>
+<li>
+<p>Some files have bugs or harmful malware attatched to them. Find them by typing these commands:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This command searches for every single user identification (SUID) files. Check each file to see if it has harmful properties.
+find / -perm +4000</p>
+</li>
+<li>
+<p>This command searches for every single group identification (SGID) files. Check each file to see if it has harmful properties.
+find / -perm +2000</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Some files on a system are not owned by any user or group, which is a HUGE problem. Find all noowner files with <code>find /dir -xdev \( -nouser -o -nogroup \) -print</code></p>
+<div class="paragraph">
+<p>Once you find these noowner files, either delete them or provide ownership to a certain user or group. Use the README and judgement skills to determine what to do.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bios_and_boot_security">BIOS and Boot Security</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>BIOS security is often overlooked when it comes to cybersecurity, and most normal users can enter the BIOS and change very sensitive portions of the BIOS.
+Research the keys to enter the BIOS on your system (machines differ depending upon OS and version), then locate the administrative password configuration.
+Be sure to set this password to something secure, making it difficult for normal users to edit the BIOS configuration. While you’re in the BIOS settings,
+locate the "booting from external media devices" configuration (USB/CD/DVD). Be sure to disable this function,
+as not doing so opens a wide variety of security risks that can stem from a single flash drive.</p>
+</li>
+<li>
+<p>Locking the boot directory is a very important part of Linux security, so be sure to lock the boot directory by following these steps:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the <code>/etc/fstab</code> file and be ready to edit!</p>
+</li>
+<li>
+<p>At the bottom of the file, we need to add a new line that reads, <code>LABEL=/boot    /boot    ext2    defaults,ro    1 2</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>NOTE: The number of spaces between these code sections does not change how the file runs, so use as many or as little spaces as you so choose!</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Once that’s done, you can save and close the file, but we have one more thing to do to this file. Type the command
+<code>sudo chown root:root /etc/fstab</code> which will set editing permissions of this file only to users of the "root" group.</p>
+</li>
+<li>
+<p>After locking the boot directory, you should also set some new permissions to secure the boot settings. The following commands will set the owner of boot files to root, ensure such permissions for root are only to read and write files, and require authentication in single-user mode.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>sudo chown root:root /etc/grub.conf			# Owner setting to root.</p>
+</li>
+<li>
+<p>sudo chmod og-rwx /etc/grub.conf			# Make permissions only read and write.</p>
+</li>
+<li>
+<p>sudo sed -i "/SINGLE/s/sushell/sulogin/" /etc/sysconfig/init 	# Requires authentication for single-user mode.</p>
+</li>
+<li>
+<p>sudo sed -i "/PROMPT/s/yes/no/" /etc/sysconfig/init		# Requires authentication for single-user mode.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_additional_information_and_faq">Additional Information and FAQ</h3>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em><code>sudo</code> command cannot be found on Debian</em></p>
+<p>If you get an error saying "the command <code>sudo</code> cannot be found" or something
+similar, it means that sudo is not installed. To fix this go into the root
+terminal (usually can find this in the applications list) and using <code>apt-get</code>
+install <code>sudo</code> with the command: <code>apt-get install sudo</code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extra_resources">Extra Resources</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Download this checklist here as a pdf: <a href="https://matrix0501.com/content/articles/linux_hardening_article.pdf" target="_blank" rel="noopener">Linux_Hardening_Article.pdf</a></p>
+</li>
+<li>
+<p>This checklist/guide was based off of a checklist my teammate made that can be downlaoded <a href="https://matrix0501.com/content/File_Download/GOD_teir_checklist_LINUX_or_also_know_as_PAIN.docx" target="_blank" rel="noopener">here</a></p>
+</li>
+<li>
+<p>Check out Debian’s own securing guide on their website: <a href="https://www.debian.org/doc/manuals/securing-debian-manual/index.en.html" target="_blank" rel="noopener">Securing Debian</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></div>
+    </main>
+
+
+
+
+
+</body></html>
